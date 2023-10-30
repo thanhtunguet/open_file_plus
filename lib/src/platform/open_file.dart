@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:open_file_plus/src/common/open_result.dart';
 
 import 'linux.dart' as linux;
-import 'macos.dart' as mac;
 import 'windows.dart' as windows;
 
 class OpenFile {
@@ -16,14 +15,16 @@ class OpenFile {
 
   ///linuxDesktopName like 'xdg'/'gnome'
   static Future<OpenResult> open(String? filePath,
-      {String? type, String? uti, String linuxDesktopName = "xdg", bool linuxByProcess = false}) async {
+      {String? type,
+      String? uti,
+      String linuxDesktopName = "xdg",
+      bool linuxByProcess = false,
+      Uint8List? webData}) async {
     assert(filePath != null);
-    if (!Platform.isIOS && !Platform.isAndroid) {
+    if (!Platform.isMacOS && !Platform.isIOS && !Platform.isAndroid) {
       int result;
       int? windowsResult;
-      if (Platform.isMacOS) {
-        result = mac.system(['open', '$filePath']);
-      } else if (Platform.isLinux) {
+      if (Platform.isLinux) {
         var filePathLinux = Uri.file(filePath!);
         if (linuxByProcess) {
           result = Process.runSync('xdg-open', [filePathLinux.toString()]).exitCode;
