@@ -139,10 +139,10 @@ public class OpenFilePlusPlugin implements FlutterPlugin, MethodCallHandler, Act
                 }
             }
         } else {
-            if (!hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE);
-                return false;
-            }
+            // if (!hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            //     ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE);
+            //     return false;
+            // }
         }
         return true;
     }
@@ -185,9 +185,9 @@ public class OpenFilePlusPlugin implements FlutterPlugin, MethodCallHandler, Act
 
         try {
             String appDirCanonicalPath = new File(context.getApplicationInfo().dataDir).getCanonicalPath();
-            String extCanonicalPath = context.getExternalFilesDir(null).getCanonicalPath();
+        
             String fileCanonicalPath = new File(filePath).getCanonicalPath();
-            return !(fileCanonicalPath.startsWith(appDirCanonicalPath) || fileCanonicalPath.startsWith(extCanonicalPath));
+            return !(fileCanonicalPath.startsWith(appDirCanonicalPath));
         } catch (IOException e) {
             e.printStackTrace();
             return true;
